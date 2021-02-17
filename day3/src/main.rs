@@ -1,9 +1,10 @@
 use num_format::{Locale, ToFormattedString};
 use std::collections::HashSet;
-use std::io;
-use std::io::prelude::*;
+use std::io::BufReader;
+use std::io::BufRead;
+use std::fs::File;
 
-struct File {
+struct Input {
     trees: usize,
     col: usize,
     len: usize,
@@ -34,15 +35,17 @@ impl Iterator for Line {
 
 fn main() {
     // Obtained by examining input file
-    let input = File {
+    let input = Input {
         trees: 2227,
         col: 31,
         len: 323,
     };
-    let stdin = io::stdin();
+    let file = File::open("../input/day3.input").unwrap();
+    let stdin = BufReader::new(file);
+    //let stdin = io::stdin();
     let mut forest = HashSet::new();
     forest.reserve(input.trees);
-    for (y, line) in stdin.lock().lines().enumerate() {
+    for (y, line) in stdin.lines().enumerate() {
         let line_str = line.unwrap();
         let mut inserts = line_str
             .match_indices('#')
