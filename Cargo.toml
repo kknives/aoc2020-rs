@@ -5,3 +5,5 @@ members = [
   "day2",
   "day3",
 ]
+[profile.release]
+debug = 1
