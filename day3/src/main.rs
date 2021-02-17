@@ -1,8 +1,8 @@
 use num_format::{Locale, ToFormattedString};
 use std::collections::HashSet;
-use std::io::BufReader;
-use std::io::BufRead;
 use std::fs::File;
+use std::io::BufRead;
+use std::io::BufReader;
 
 struct Input {
     trees: usize,
