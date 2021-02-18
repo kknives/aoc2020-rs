@@ -13,12 +13,11 @@ impl Passport<'_> {
         if self
             .fields
             .iter()
-            .map(|x| entries.contains_key(x))
-            .all(|x| x)
+            .all(|x| entries.contains_key(x))
         {
             entries
                 .iter()
-                .map(|(&key, val)| match key {
+                .all(|(&key, val)| match key {
                     "byr" => self.byr_check(val),
                     "iyr" => self.iyr_check(val),
                     "eyr" => self.eyr_check(val),
@@ -29,7 +28,6 @@ impl Passport<'_> {
                     "cid" => true,
                     _ => false,
                 })
-                .all(|x| x)
         } else {
             false
         }
