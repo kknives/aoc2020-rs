@@ -1,8 +1,8 @@
+use lazy_static::lazy_static;
+use regex::Regex;
 use std::collections::HashMap;
 use std::io;
 use std::io::prelude::*;
-use regex::Regex;
-use lazy_static::lazy_static;
 
 #[derive(Debug)]
 struct Passport<'a> {
@@ -10,9 +10,15 @@ struct Passport<'a> {
 }
 impl Passport<'_> {
     fn validate(&self, entries: &HashMap<&str, &str>) -> bool {
-        if self.fields.iter().map(|x| entries.contains_key(x) ).all(|x| x) {
-            entries.iter().map( |(&key, val)| {
-                match key {
+        if self
+            .fields
+            .iter()
+            .map(|x| entries.contains_key(x))
+            .all(|x| x)
+        {
+            entries
+                .iter()
+                .map(|(&key, val)| match key {
                     "byr" => self.byr_check(val),
                     "iyr" => self.iyr_check(val),
                     "eyr" => self.eyr_check(val),
@@ -22,8 +28,8 @@ impl Passport<'_> {
                     "pid" => self.pid_check(val),
                     "cid" => true,
                     _ => false,
-                }
-            }).all(|x| x)
+                })
+                .all(|x| x)
         } else {
             false
         }
@@ -47,16 +53,24 @@ impl Passport<'_> {
     }
 
     fn hgt_check(&self, val: &str) -> bool {
-        match val.get((val.len()-2)..) {
+        match val.get((val.len() - 2)..) {
             Some("cm") => {
-                let hgt: u32 = val.strip_suffix("cm").unwrap_or_default().parse().unwrap_or_default();
+                let hgt: u32 = val
+                    .strip_suffix("cm")
+                    .unwrap_or_default()
+                    .parse()
+                    .unwrap_or_default();
                 (150..=193).contains(&hgt)
-            },
+            }
             Some("in") => {
-                let hgt: u32 = val.strip_suffix("in").unwrap_or_default().parse().unwrap_or_default();
+                let hgt: u32 = val
+                    .strip_suffix("in")
+                    .unwrap_or_default()
+                    .parse()
+                    .unwrap_or_default();
                 (59..=76).contains(&hgt)
-            },
-            _ => false
+            }
+            _ => false,
         }
     }
 
@@ -79,7 +93,6 @@ impl Passport<'_> {
         PID_FORM.is_match(val)
     }
 }
-        
 
 fn main() {
     let stdin = io::stdin();
@@ -90,8 +103,13 @@ fn main() {
         if line_str.is_empty() {
             break;
         }
-        let entries: HashMap<&str, &str> = line_str.split(' ').map(|x| { let mut splt = x.split(':');
-           (splt.next().unwrap(), splt.next().unwrap()) }).collect();
+        let entries: HashMap<&str, &str> = line_str
+            .split(' ')
+            .map(|x| {
+                let mut splt = x.split(':');
+                (splt.next().unwrap(), splt.next().unwrap())
+            })
+            .collect();
 
         if ruleset.validate(&entries) {
             count += 1;
