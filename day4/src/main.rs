@@ -134,4 +134,26 @@ mod tests {
         assert!(passport.pid_check("000000001"));
         assert!(!passport.pid_check("0123456789"));
     }
+
+    #[test]
+    fn test_byr() {
+        let passport = Passport::new();
+        assert!(passport.byr_check("2002"));
+        assert!(!passport.byr_check("2003"));
+    }
+
+    #[test]
+    fn test_iyr() {
+        let passport = Passport::new();
+        assert!(passport.iyr_check("2012"));
+        assert!(!passport.iyr_check("1999"));
+    }
+
+    #[test]
+    fn test_eyr() {
+        let passport = Passport::new();
+        assert!(passport.eyr_check("2029"));
+        assert!(!passport.eyr_check("1989"));
+        assert!(!passport.eyr_check("2055"));
+    }
 }
