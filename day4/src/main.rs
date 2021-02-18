@@ -96,3 +96,38 @@ fn main() {
 
     println!("Found {} valid passports", count);
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_hgt() {
+        let passport = Passport::new();
+        assert!(passport.hgt_check("60in"));
+        assert!(passport.hgt_check("190cm"));
+        assert!(!passport.hgt_check("190in"));
+        assert!(!passport.hgt_check("190"));
+    }
+
+    #[test]
+    fn test_hcl() {
+        let passport = Passport::new();
+        assert!(passport.hcl_check("#123abc"));
+        assert!(!passport.hcl_check("#123az"));
+        assert!(!passport.hcl_check("123abc"));
+    }
+
+    #[test]
+    fn test_ecl() {
+        let passport = Passport::new();
+        assert!(passport.ecl_check("brn"));
+        assert!(!passport.ecl_check("wat"));
+    }
+
+    #[test]
+    fn test_pid() {
+        let passport = Passport::new();
+        assert!(passport.pid_check("000000001"));
+        assert!(!passport.pid_check("0123456789"));
+    }
+}
