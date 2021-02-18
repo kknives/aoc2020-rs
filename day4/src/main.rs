@@ -35,26 +35,26 @@ impl Passport<'_> {
     }
     fn byr_check(&self, val: &str) -> bool {
         let cond = val.parse::<u32>().unwrap_or_default();
-        cond >= 1920 && cond <= 2002
+        (1920..=2002).contains(&cond)
     }
     fn iyr_check(&self, val: &str) -> bool {
         let cond = val.parse::<u32>().unwrap_or_default();
-        cond >= 2010 && cond <= 2020
+        (2010..=2020).contains(&cond)
     }
     fn eyr_check(&self, val: &str) -> bool {
         let cond = val.parse::<u32>().unwrap_or_default();
-        cond >= 2020 && cond <= 2030
+        (2020..=2030).contains(&cond)
     }
 
     fn hgt_check(&self, val: &str) -> bool {
         match val.get((val.len()-2)..) {
             Some("cm") => {
                 let hgt: u32 = val.strip_suffix("cm").unwrap_or_default().parse().unwrap_or_default();
-                hgt >= 150 && hgt <= 193
+                (150..=193).contains(&hgt)
             },
             Some("in") => {
                 let hgt: u32 = val.strip_suffix("in").unwrap_or_default().parse().unwrap_or_default();
-                hgt >= 59 && hgt <= 76
+                (59..=76).contains(&hgt)
             },
             _ => false
         }
