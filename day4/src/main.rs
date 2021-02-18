@@ -103,6 +103,7 @@ fn main() {
         }
         let entries: HashMap<&str, &str> = line_str
             .split(' ')
+            .filter(|x| !x.is_empty())
             .map(|x| {
                 let mut splt = x.split(':');
                 (splt.next().unwrap(), splt.next().unwrap())
