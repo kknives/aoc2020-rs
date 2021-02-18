@@ -19,7 +19,7 @@ impl<'a> Password<'a> {
             .count()
             .try_into()
             .unwrap();
-        times <= self.upper_rng && times >= self.lower_rng
+        ((self.lower_rng)..=(self.upper_rng)).contains(&times)
     }
     fn new(s: &'a str) -> Result<Self, ParseIntError> {
         let tokens: Vec<&str> = s.splitn(3, ' ').collect();
