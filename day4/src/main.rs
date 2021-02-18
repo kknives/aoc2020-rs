@@ -14,15 +14,15 @@ impl Passport<'_> {
             entries.iter().map( |(&key, val)| {
                 match key {
                     "byr" => {
-                        let cond = val.parse::<u32>().unwrap_or(0);
+                        let cond = val.parse::<u32>().unwrap_or_default();
                         cond >= 1920 && cond <= 2002
                     },
                     "iyr" => {
-                        let cond = val.parse::<u32>().unwrap_or(0);
+                        let cond = val.parse::<u32>().unwrap_or_default();
                         cond >= 2010 && cond <= 2020
                     },
                     "eyr" => {
-                        let cond = val.parse::<u32>().unwrap_or(0);
+                        let cond = val.parse::<u32>().unwrap_or_default();
                         cond >= 2020 && cond <= 2030
                     },
                     "hgt" => self.hgt_check(val),
@@ -58,21 +58,21 @@ impl Passport<'_> {
 
     fn hcl_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref hcl_form: Regex = Regex::new(r"#[[:xdigit:]]{6}").unwrap();
+            static ref HCL_FORM: Regex = Regex::new(r"#[[:xdigit:]]{6}").unwrap();
         }
-        hcl_form.is_match(val)
+        HCL_FORM.is_match(val)
     }
     fn ecl_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref ecl_form: Regex = Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap();
+            static ref ECL_FORM: Regex = Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap();
         }
-        ecl_form.is_match(val)
+        ECL_FORM.is_match(val)
     }
     fn pid_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref pid_form: Regex = Regex::new(r"\d{9}").unwrap();
+            static ref PID_FORM: Regex = Regex::new(r"\d{9}").unwrap();
         }
-        pid_form.is_match(val)
+        PID_FORM.is_match(val)
     }
 }
         
