@@ -13,18 +13,9 @@ impl Passport<'_> {
         if self.fields.iter().map(|x| entries.contains_key(x) ).all(|x| x) {
             entries.iter().map( |(&key, val)| {
                 match key {
-                    "byr" => {
-                        let cond = val.parse::<u32>().unwrap_or_default();
-                        cond >= 1920 && cond <= 2002
-                    },
-                    "iyr" => {
-                        let cond = val.parse::<u32>().unwrap_or_default();
-                        cond >= 2010 && cond <= 2020
-                    },
-                    "eyr" => {
-                        let cond = val.parse::<u32>().unwrap_or_default();
-                        cond >= 2020 && cond <= 2030
-                    },
+                    "byr" => self.byr_check(val),
+                    "iyr" => self.iyr_check(val),
+                    "eyr" => self.eyr_check(val),
                     "hgt" => self.hgt_check(val),
                     "hcl" => self.hcl_check(val),
                     "ecl" => self.ecl_check(val),
@@ -42,6 +33,19 @@ impl Passport<'_> {
             fields: vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"],
         }
     }
+    fn byr_check(&self, val: &str) -> bool {
+        let cond = val.parse::<u32>().unwrap_or_default();
+        cond >= 1920 && cond <= 2002
+    }
+    fn iyr_check(&self, val: &str) -> bool {
+        let cond = val.parse::<u32>().unwrap_or_default();
+        cond >= 2010 && cond <= 2020
+    }
+    fn eyr_check(&self, val: &str) -> bool {
+        let cond = val.parse::<u32>().unwrap_or_default();
+        cond >= 2020 && cond <= 2030
+    }
+
     fn hgt_check(&self, val: &str) -> bool {
         match val.get((val.len()-2)..) {
             Some("cm") => {
