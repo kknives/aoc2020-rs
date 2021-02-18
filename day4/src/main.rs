@@ -62,19 +62,19 @@ impl Passport<'_> {
 
     fn hcl_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref HCL_FORM: Regex = Regex::new(r"#[[:xdigit:]]{6}").unwrap();
+            static ref HCL_FORM: Regex = Regex::new(r"^#[[:xdigit:]]{6}$").unwrap();
         }
         HCL_FORM.is_match(val)
     }
     fn ecl_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref ECL_FORM: Regex = Regex::new(r"amb|blu|brn|gry|grn|hzl|oth").unwrap();
+            static ref ECL_FORM: Regex = Regex::new(r"^amb|blu|brn|gry|grn|hzl|oth$").unwrap();
         }
         ECL_FORM.is_match(val)
     }
     fn pid_check(&self, val: &str) -> bool {
         lazy_static! {
-            static ref PID_FORM: Regex = Regex::new(r"\d{9}").unwrap();
+            static ref PID_FORM: Regex = Regex::new(r"^\d{9}$").unwrap();
         }
         PID_FORM.is_match(val)
     }
